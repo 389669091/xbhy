@@ -114,6 +114,13 @@
       <version>1.2.62</version>
     </dependency>
 
+    <!-- 邮件发送 -->
+    <dependency>
+      <groupId>javax.mail</groupId>
+      <artifactId>mail</artifactId>
+      <version>1.4.7</version>
+    </dependency>
+
     <dependency>
       <groupId>commons-lang</groupId>
       <artifactId>commons-lang</artifactId>

@@ -18,12 +18,12 @@ public class BaseServlet extends HttpServlet {
         String uri=request.getRequestURI();
         String [] uris=uri.split("/");
         String method=uris[uris.length-1];
-        UserServlet userServlet=new UserServlet();
-        Class cla=userServlet.getClass();
+//        UserServlet userServlet=new UserServlet();
+        Class cla=this.getClass();
         try {
             Method m=cla.getDeclaredMethod(method,HttpServletRequest.class,HttpServletResponse.class);
             m.setAccessible(true);
-            m.invoke(userServlet,request,response);
+            m.invoke(this,request,response);
         } catch (Exception e) {
             e.printStackTrace();
         }

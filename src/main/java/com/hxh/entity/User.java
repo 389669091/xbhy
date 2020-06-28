@@ -13,12 +13,20 @@ public class User {
     private String username;
     private String password;
     private String email;
+    private String qqOpenid;
+    private String wxOpenid;
     private String realName;
     private Integer age;
-    private String gender;
+    private String phone;
+    private Integer sex;
     private String description;
     private Date registerTime;
-    private Integer deptID;
+    private String loginTime;
+    private String pic;
+    private Integer look;
+    private String isSecret;
+    private String deptName;
+    private Integer deptId;
 
     public Integer getId() {
         return id;
@@ -52,6 +60,22 @@ public class User {
         this.email = email;
     }
 
+    public String getQqOpenid() {
+        return qqOpenid;
+    }
+
+    public void setQqOpenid(String qqOpenid) {
+        this.qqOpenid = qqOpenid;
+    }
+
+    public String getWxOpenid() {
+        return wxOpenid;
+    }
+
+    public void setWxOpenid(String wxOpenid) {
+        this.wxOpenid = wxOpenid;
+    }
+
     public String getRealName() {
         return realName;
     }
@@ -68,12 +92,20 @@ public class User {
         this.age = age;
     }
 
-    public String getGender() {
-        return gender;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public Integer getSex() {
+        return sex;
+    }
+
+    public void setSex(Integer sex) {
+        this.sex = sex;
     }
 
     public String getDescription() {
@@ -92,11 +124,75 @@ public class User {
         this.registerTime = registerTime;
     }
 
-    public Integer getDeptID() {
-        return deptID;
+    public String getLoginTime() {
+        return loginTime;
     }
 
-    public void setDeptID(Integer deptID) {
-        this.deptID = deptID;
+    public void setLoginTime(String loginTime) {
+        this.loginTime = loginTime;
+    }
+
+    public String getPic() {
+        return pic;
+    }
+
+    public void setPic(String pic) {
+        this.pic = pic;
+    }
+
+    public Integer getLook() {
+        return look;
+    }
+
+    public void setLook(Integer look) {
+        this.look = look;
+    }
+
+    public String getIsSecret() {
+        return isSecret;
+    }
+
+    public void setIsSecret(String isSecret) {
+        this.isSecret = isSecret;
+    }
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+
+    public Integer getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(Integer deptId) {
+        this.deptId = deptId;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", qqOpenid='" + qqOpenid + '\'' +
+                ", wxOpenid='" + wxOpenid + '\'' +
+                ", realName='" + realName + '\'' +
+                ", age=" + age +
+                ", phone='" + phone + '\'' +
+                ", sex=" + sex +
+                ", description='" + description + '\'' +
+                ", registerTime=" + registerTime +
+                ", loginTime='" + loginTime + '\'' +
+                ", pic='" + pic + '\'' +
+                ", look=" + look +
+                ", isSecret='" + isSecret + '\'' +
+                ", deptName='" + deptName + '\'' +
+                ", deptId=" + deptId +
+                '}';
     }
 }
