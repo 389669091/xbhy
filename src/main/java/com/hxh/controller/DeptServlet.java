@@ -31,7 +31,6 @@ public class DeptServlet extends BaseServlet {
         String str=JSON.toJSONString(list);
         pw.write(str);
         pw.close();
-        response.getWriter().write(JSON.toJSONString(list));
     }
     public void listAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Dept> list = deptService.listAll();

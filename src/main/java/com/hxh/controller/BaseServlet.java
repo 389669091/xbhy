@@ -19,6 +19,7 @@ public class BaseServlet extends HttpServlet {
         String [] uris=uri.split("/");
         String method=uris[uris.length-1];
 //        UserServlet userServlet=new UserServlet();
+        //反射
         Class cla=this.getClass();
         try {
             Method m=cla.getDeclaredMethod(method,HttpServletRequest.class,HttpServletResponse.class);

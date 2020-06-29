@@ -100,7 +100,7 @@ public void listAll(HttpServletRequest request, HttpServletResponse response) th
     String sex = request.getParameter("sex");
     sex = sex == null ? "-1" : sex;
     String strPage=request.getParameter("page");
-
+//以分页的形式显示查询出来的数据
     Page page=userService.listAll(username,sex,strPage);
     request.setAttribute("username",username);
     request.setAttribute("sex",sex);
@@ -215,5 +215,6 @@ public void listAll(HttpServletRequest request, HttpServletResponse response) th
         userService.deleteUser( Integer.valueOf(id));
         response.sendRedirect("/user/listAll");
     }
+
 }
 

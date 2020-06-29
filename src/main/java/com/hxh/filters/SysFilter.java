@@ -27,11 +27,10 @@ public class SysFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        String contentType = request.getHeader("Accept");
-
+//        String contentType = request.getHeader("Accept");
         request.setCharacterEncoding("utf-8");
         response.setCharacterEncoding("utf-8");
-        response.setContentType("text/html;charset=UTF-8");
+        /*response.setContentType("text/html;charset=UTF-8");*/
         HttpSession session = request.getSession();
         String uri = request.getRequestURI();
         //登录，默认的，/login
@@ -55,9 +54,14 @@ public class SysFilter implements Filter {
             }
         }
 
-        if (uri.endsWith("/") || uri.endsWith("/index.jsp")
-                || uri.endsWith("/login") || uri.endsWith("/forget.jsp")
-                || uri.endsWith("/email") || uri.endsWith("/login/forget")) {
+        else if (uri.endsWith("/")
+                || uri.endsWith("/forget.jsp")
+                || uri.endsWith("/email")
+                ||uri.endsWith("/meeting/listAll")
+                ||uri.contains("img")
+                ||uri.contains("static")
+                ||uri.contains("login")
+        ) {
             //直接放行
         } else {
             //判断是否有session

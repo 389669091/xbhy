@@ -6,9 +6,10 @@ package com.hxh.enums;
  * @Description
  */
 public enum SysEnum {
-
-    COOKIE_LOGIN_NAME("cookieLoginName");
-
+    //用户登录cookie
+    COOKIE_LOGIN_NAME("cookieLoginName"),
+    //用户邮箱验证码
+    COOKIE_LOGIN_CODE("cookieLoginCode");
     private String value;
 
     SysEnum() {
