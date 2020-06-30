@@ -102,7 +102,6 @@ public class ImgServlet extends BaseServlet {
             out.write("0");
         }
     }
-
     public void getHead(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id=request.getParameter("id");
         UserService userService=new UserService();
