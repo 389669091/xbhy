@@ -46,6 +46,8 @@
     }
 </script>
 <body>
+<%@include file="../common/top.jsp"%>
+<%@include file="../common/left.jsp"%>
 <form action="/user/add" method="post">
     用户名：<input type="text" id="username" name="username" value="" onblur="checkUserName()" >
     <span id="span" style="color: red;" hidden>账号已存在，请重新输入</span><br><br>

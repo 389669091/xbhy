@@ -16,7 +16,7 @@
             height: 90%;
             border: 1px solid sienna;
             float: left;
-            margin-left: 5px;
+            margin-left: 0.3%;
         }
 
         li {

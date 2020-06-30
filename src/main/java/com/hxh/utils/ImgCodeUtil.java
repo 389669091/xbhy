@@ -13,7 +13,8 @@ public class ImgCodeUtil {
     private Random r = new Random();      //获取随机数对象
     private String[] fontNames = {"宋体", "华文楷体", "黑体", "微软雅黑", "楷体_GB2312"};   //字体数组
     //    private String codes = "23456789abcdefghjkmnopqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ";    //验证码数组
-    private String codes = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";    //验证码数组
+//    private String codes = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";    //验证码数组
+    private String codes = "0123456789";    //验证码数组
 
     /**
      * 获取随机的颜色

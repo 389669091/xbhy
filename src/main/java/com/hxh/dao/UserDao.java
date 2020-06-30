@@ -110,9 +110,9 @@ public List<User> listAll(String username, String sex1, Page page) {
 
     //      添加用户
     public void addUser(User user) {
-        String sql = "insert into user(username,password,email,real_name,age,sex,description,register_time,dept_id)values(?,?,?,?,?,?,?,?,?)";
+        String sql = "insert into user(username,password,email,real_name,age,sex,description,register_time,dept_id,wx_openid,pic)values(?,?,?,?,?,?,?,?,?,?,?)";
         template.update(sql, user.getUsername(), user.getPassword(), user.getEmail(),
-                user.getRealName(), user.getAge(),user.getSex(), user.getDescription(), user.getRegisterTime(), user.getDeptId());
+                user.getRealName(), user.getAge(),user.getSex(), user.getDescription(), user.getRegisterTime(), user.getDeptId(),user.getWxOpenid(),user.getPic());
     }
 
     //      根据id查询用户，用于回显数据
@@ -142,4 +142,12 @@ public List<User> listAll(String username, String sex1, Page page) {
         template.update(sql, pic, id);
     }
 
+    public User findByWxOpenid(String WxOpenid) {
+        String sql = "select * from user WHERE wx_openid=?";
+        try {
+            return template.queryForObject(sql, new BeanPropertyRowMapper<User>(User.class), WxOpenid);
+        } catch (DataAccessException e) {
+            return null;
+        }
+    }
 }

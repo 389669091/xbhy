@@ -28,7 +28,9 @@ import java.util.UUID;
  */
 @WebServlet("/img/*")
 public class ImgServlet extends BaseServlet {
+    UserService userService=new UserService();
     protected void getCode(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 //        FileInputStream fis=new FileInputStream("D:\\2.jpg");
 //        OutputStream os=response.getOutputStream();
 //        byte [] b= new byte [1024];
@@ -38,21 +40,21 @@ public class ImgServlet extends BaseServlet {
 //        }
 //        os.close();
 //        fis.close();
-        HttpSession session=request.getSession();
-        ImgCodeUtil imgCodeUtil=new ImgCodeUtil();
-        OutputStream os=response.getOutputStream();
-        BufferedImage bufferedImage=imgCodeUtil.getImage();
-        ImageIO.write(bufferedImage,"jpeg",os);
+        HttpSession session = request.getSession();
+        ImgCodeUtil imgCodeUtil = new ImgCodeUtil();
+        OutputStream os = response.getOutputStream();
+        BufferedImage bufferedImage = imgCodeUtil.getImage();
+        ImageIO.write(bufferedImage, "jpeg", os);
         os.flush();
         os.close();
-        session.setAttribute(SysEnum.COOKIE_LOGIN_CODE.getValue(),imgCodeUtil.getText());
+        session.setAttribute(SysEnum.COOKIE_LOGIN_CODE.getValue(), imgCodeUtil.getText());
         System.out.println(imgCodeUtil.getText());
 
     }
 
     protected void upload(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
-        UserService userService=new UserService();
+        UserService userService = new UserService();
         //为解析类提供配置信息 创建文件上传工厂类
         DiskFileItemFactory factory = new DiskFileItemFactory();
         //创建解析类的实例 传入工厂类获取文件上传对象
@@ -61,17 +63,17 @@ public class ImgServlet extends BaseServlet {
         sfu.setFileSizeMax(1024 * 1024 * 2);
         String suffix = "";
         try {
-            List<FileItem> items=sfu.parseRequest(request);
-            for (int i=0;i<items.size();i++){
-                FileItem item=items.get(i);
+            List<FileItem> items = sfu.parseRequest(request);
+            for (int i = 0; i < items.size(); i++) {
+                FileItem item = items.get(i);
                 //isFormField为true，表示这不是文件上传表单域
-                if (!(item.isFormField())){
-                    String name=item.getName();
-                    if ("".equals(name)){
+                if (!(item.isFormField())) {
+                    String name = item.getName();
+                    if ("".equals(name)) {
                         return;
                     }
-                    String [] names=name.split("\\.");
-                    name=names[names.length-1];
+                    String[] names = name.split("\\.");
+                    name = names[names.length - 1];
                     //构造文件路径(保存到数据库的路径)
                     //1时间戳
                     //文件名称
@@ -95,27 +97,55 @@ public class ImgServlet extends BaseServlet {
             User loginUser = (User) request.getSession().getAttribute(SysConstant.SESSION_LOGIN);
             //保存路径到数据库
             userService.updatePic(loginUser.getId(), suffix);
-
             out.write("1");
         } catch (Exception e) {
             e.printStackTrace();
             out.write("0");
         }
     }
+
+    //换头像
     public void getHead(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String id=request.getParameter("id");
-        UserService userService=new UserService();
-        User user=userService.getUserById(Integer.valueOf(id));
-        String path=SysConstant.FILE_PREFIX+user.getPic();
-        FileInputStream fis=new FileInputStream(path);
-        OutputStream os=response.getOutputStream();
+        String id = request.getParameter("id");
+        UserService userService = new UserService();
+        User user = userService.getUserById(Integer.valueOf(id));
+        String path = SysConstant.FILE_PREFIX + user.getPic();
+        FileInputStream fis = new FileInputStream(path);
+        OutputStream os = response.getOutputStream();
         int len;
-        byte [] b=new byte[1024];
-        while ((len=fis.read(b))!=-1){
-            os.write(b,0,len);
+        byte[] b = new byte[1024];
+        while ((len = fis.read(b)) != -1) {
+            os.write(b, 0, len);
         }
         os.flush();
         os.close();
         fis.close();
+    }
+
+    protected void getHead2(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        OutputStream os = response.getOutputStream();
+        User user = (User) session.getAttribute(SysConstant.SESSION_LOGIN);
+        String pic = user.getPic();
+        if (pic.contains("http")) {
+            os.write(pic.getBytes());
+        } else {
+            Integer id = user.getId();
+            User user1 = userService.getUserById(id);
+            String path = SysConstant.FILE_PREFIX + user1.getPic();
+            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(path));
+            byte[] bytes = new byte[1024];
+            int len;
+            while ((len = bis.read(bytes)) != -1) {
+                os.write(bytes, 0, len);
+            }
+            os.flush();
+            if (os != null) {
+                os.close();
+            }
+            if (bis != null) {
+                bis.close();
+            }
+        }
     }
 }

@@ -90,4 +90,7 @@ public class UserService {
     public void updatePic(Integer id, String pic) {
         userDao.updatePic(id, pic);
     }
+    public User findByWxOpenid(String WxOpenid) {
+    return userDao.findByWxOpenid(WxOpenid);
+    }
 }

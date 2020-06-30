@@ -10,8 +10,15 @@
 <head>
     <title>Title</title>
 </head>
-
+<style>
+    #img-head{
+        width: 100px;
+        height: 100px;
+    }
+</style>
 <body>
+<%@include file="../common/top.jsp"%>
+<%@include file="../common/left.jsp"%>
 <%--<form action="/user/update" method="post">--%>
     <%--用户名：<input type="text" name="username" value="${user.username}"><br><br>--%>
     <%--邮箱：<input type="text" name="email" value="${user.email}"><br><br>--%>
