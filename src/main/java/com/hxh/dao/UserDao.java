@@ -44,47 +44,47 @@ public class UserDao extends BaseDao {
 //        template.update(sql,user.getUsername(),user.getPassword(),user.getEmail(),user.getRealName(),user.getAge(),user.getSex(),user.getDescription(),user.getRegisterTime(),user.getDeptId(),user.getId());
 //    }
 
-//       封装后  查询所有用户
-public List<User> listAll(String username, String sex1, Page page) {
-    Integer sex = Integer.valueOf(sex1);
-    if (sex == -1) {
-        String sql = "SELECT " +
-                "d.id," +
-                "d.name deptName," +
-                "u.id," +
-                "u.username," +
-                "u.email," +
-                "u.real_name realName," +
-                "u.age," +
-                "u.sex," +
-                "u.description," +
-                "u.register_time registerTime " +
-                "from " +
-                "user u " +
-                "left join dept d ON u.dept_id = d.id " +
-                "WHERE " +
-                "u.username LIKE ? limit ?,?";
-        return template.query(sql, new BeanPropertyRowMapper<User>(User.class), "%" + username + "%", (page.getPageCurrent() - 1) * page.getSize(), page.getSize());
-    } else {
-        String sql = "SELECT " +
-                "d.id," +
-                "d.name deptName," +
-                "u.id," +
-                "u.username," +
-                "u.email," +
-                "u.real_name realName," +
-                "u.age," +
-                "u.sex," +
-                "u.description," +
-                "u.register_time registerTime " +
-                "FROM " +
-                "USER u " +
-                "LEFT JOIN dept d ON u.dept_id = d.id " +
-                "WHERE " +
-                "u.username LIKE ? and sex=?  limit ?,?";
-        return template.query(sql, new BeanPropertyRowMapper<User>(User.class), "%" + username + "%", sex, (page.getPageCurrent() - 1) * page.getSize(), page.getSize());
+    //       封装后  查询所有用户
+    public List<User> listAll(String username, String sex1, Page page) {
+        Integer sex = Integer.valueOf(sex1);
+        if (sex == -1) {
+            String sql = "SELECT " +
+                    "d.id," +
+                    "d.name deptName," +
+                    "u.id," +
+                    "u.username," +
+                    "u.email," +
+                    "u.real_name realName," +
+                    "u.age," +
+                    "u.sex," +
+                    "u.description," +
+                    "u.register_time registerTime " +
+                    "from " +
+                    "user u " +
+                    "left join dept d ON u.dept_id = d.id " +
+                    "WHERE " +
+                    "u.username LIKE ? limit ?,?";
+            return template.query(sql, new BeanPropertyRowMapper<User>(User.class), "%" + username + "%", (page.getPageCurrent() - 1) * page.getSize(), page.getSize());
+        } else {
+            String sql = "SELECT " +
+                    "d.id," +
+                    "d.name deptName," +
+                    "u.id," +
+                    "u.username," +
+                    "u.email," +
+                    "u.real_name realName," +
+                    "u.age," +
+                    "u.sex," +
+                    "u.description," +
+                    "u.register_time registerTime " +
+                    "FROM " +
+                    "USER u " +
+                    "LEFT JOIN dept d ON u.dept_id = d.id " +
+                    "WHERE " +
+                    "u.username LIKE ? and sex=?  limit ?,?";
+            return template.query(sql, new BeanPropertyRowMapper<User>(User.class), "%" + username + "%", sex, (page.getPageCurrent() - 1) * page.getSize(), page.getSize());
+        }
     }
-}
 
     //     查询所有记录总数
     public Integer getCount(String username, String sex1) {
@@ -112,7 +112,7 @@ public List<User> listAll(String username, String sex1, Page page) {
     public void addUser(User user) {
         String sql = "insert into user(username,password,email,real_name,age,sex,description,register_time,dept_id,wx_openid,pic)values(?,?,?,?,?,?,?,?,?,?,?)";
         template.update(sql, user.getUsername(), user.getPassword(), user.getEmail(),
-                user.getRealName(), user.getAge(),user.getSex(), user.getDescription(), user.getRegisterTime(), user.getDeptId(),user.getWxOpenid(),user.getPic());
+                user.getRealName(), user.getAge(), user.getSex(), user.getDescription(), user.getRegisterTime(), user.getDeptId(), user.getWxOpenid(), user.getPic());
     }
 
     //      根据id查询用户，用于回显数据
@@ -132,11 +132,13 @@ public List<User> listAll(String username, String sex1, Page page) {
         String sql = "delete from user where id=?";
         template.update(sql, id);
     }
+
     //用户修改密码
     public void updatePs(String username, String newPs) {
         String sql = "update user set password=? where username=? ";
         template.update(sql, newPs, username);
     }
+
     public void updatePic(Integer id, String pic) {
         String sql = "update user set pic=? where id=? ";
         template.update(sql, pic, id);
@@ -149,5 +151,11 @@ public List<User> listAll(String username, String sex1, Page page) {
         } catch (DataAccessException e) {
             return null;
         }
+    }
+
+    public List<User> listForExcel(String username) {
+//        String sql = "select * from user where username like ?";
+        String sql = " SELECT d.name deptName,u.username, u.age,u.sex from user u LEFT JOIN dept d ON u.dept_id = d.id WHERE u.username LIKE ?";
+        return template.query(sql, new BeanPropertyRowMapper<>(User.class), "%" + username + "%");
     }
 }

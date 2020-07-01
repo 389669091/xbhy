@@ -6,6 +6,10 @@ import com.hxh.entity.Menu;
 import com.hxh.entity.Page;
 import com.hxh.entity.User;
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 
 import java.util.Date;
@@ -54,14 +58,13 @@ public class UserService {
     public Integer getCount(String username, String sex1) {
         return userDao.getCount(username, sex1);
     }
-
+//添加用户
     public void addUser(User user) {
         user.setId(null);
-//        user.setRegisterTime(new Date());
         user.setRegisterTime(new Date());
         userDao.addUser(user);
     }
-
+    //登录验证
     public Boolean findName(String username) {
         User user = userDao.findName(username);
         if (user != null) {
@@ -83,14 +86,49 @@ public class UserService {
     public void deleteUser(Integer id) {
         userDao.deleteUser(id);
     }
+    //修改密码
     public void updatePs(String username, String newPs) {
         userDao.updatePs(username, newPs);
     }
-
+//换头像
     public void updatePic(Integer id, String pic) {
         userDao.updatePic(id, pic);
     }
+    //微信登录
     public User findByWxOpenid(String WxOpenid) {
     return userDao.findByWxOpenid(WxOpenid);
+    }
+
+    public Workbook listForExcel( String username){
+        String[] headers = new String[]{"用户名","部门名称" ,"性别", "年龄",};
+        Workbook wb=new XSSFWorkbook();
+        Sheet sheet=wb.createSheet("工作簿");
+        Row headerRow=sheet.createRow(0);
+        for (int i = 0; i <4 ; i++) {
+            headerRow.createCell(i).setCellValue(headers[i]);
+        }
+
+        List<User>list=userDao.listForExcel(username);
+        Row row;
+        for (int i = 0; i <list.size() ; i++) {
+            row=sheet.createRow(i+1);
+            row.createCell(0).setCellValue(list.get(i).getUsername());
+            row.createCell(1).setCellValue(list.get(i).getDeptName()==null? "":list.get(i).getDeptName());
+            row.createCell(2).setCellValue(list.get(i).getAge()==null? "":list.get(i).getAge().toString());
+            String sex="";
+            if (list.get(i).getSex()!=null){
+                if (list.get(i).getSex()==1){
+                    sex="男";
+                }
+                else if(list.get(i).getSex()==0){
+                    sex="女";
+                }
+            }
+            else {
+                sex="其他";
+            }
+            row.createCell(3).setCellValue(sex);
+        }
+        return wb;
     }
 }

@@ -9,6 +9,7 @@ import java.util.Date;
  * @Description
  */
 public class User {
+    private String sexName;
     private Integer id;
     private String username;
     private String password;
@@ -27,6 +28,14 @@ public class User {
     private String isSecret;
     private String deptName;
     private Integer deptId;
+
+    public String getSexName() {
+        return sexName;
+    }
+
+    public void setSexName(String sexName) {
+        this.sexName = sexName;
+    }
 
     public Integer getId() {
         return id;
